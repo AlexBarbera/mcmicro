@@ -313,3 +313,22 @@ process SUMMARY_MARKERSHEET {
     def f1                      = task.workDir.resolve(output_file_markersheet)
     f1.text                     = output_markersheet*.join("\t").join("\n")
 }
+
+process MULTI_SUMMARY {
+    tag "$meta.id"
+    label 'process_single'
+
+    input:
+    val(meta),
+    path("summary*.tsv")
+
+    output:
+    path "*.tsv", emit: output
+
+    when:
+    task.ext.when == null || task.ext.when
+
+    script:
+    // access with \${summary_tsv.join(' ')} for a list of files
+
+}
