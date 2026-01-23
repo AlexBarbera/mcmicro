@@ -330,17 +330,23 @@ process MULTI_SUMMARY {
     tag "$meta.id"
     label 'process_single'
 
+    container "quay.io/biocontainers/python:3.13"
+
     input:
     val(meta),
     path("summary*.tsv")
 
-    output:
-    path "*.tsv", emit: output
+    //output:
+    //path "*.tsv", emit: output
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     // access with \${summary_tsv.join(' ')} for a list of files
+     """
+#! /usr/local/bin/python
+print('${summary_tsv.join(' ')}')
+"""
 
 }
